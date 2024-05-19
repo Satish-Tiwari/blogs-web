@@ -85,9 +85,9 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
         select: { name: true, email: true },
       },
     },
-  });
+  }) || {};
   return {
-    props: { post: post || null },
+    props: post,
   };
 };
 
