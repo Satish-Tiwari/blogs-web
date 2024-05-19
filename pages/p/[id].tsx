@@ -2,10 +2,10 @@ import React from 'react';
 import { GetServerSideProps } from 'next';
 import ReactMarkdown from 'react-markdown';
 import Router from 'next/router';
-import Layout from '../../components/Layout';
-import { PostProps } from '../../components/Post';
+import Layout from '@components/Layout';
+import { PostProps } from '@components/Post';
 import { useSession } from 'next-auth/react';
-import prisma from '../../lib/prisma';
+import prisma from '@lib/prisma';
 
 async function publishPost(id: string): Promise<void> {
   await fetch(`/api/publish/${id}`, {
