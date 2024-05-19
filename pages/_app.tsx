@@ -1,5 +1,6 @@
 import { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
+import '@styles/global.css'
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (

@@ -40,9 +40,9 @@ const Draft: React.FC = () => {
             rows={8}
             value={content}
           />
-          <input disabled={!content || !title} type="submit" value="Create" />
-          <a className="back" href="#" onClick={() => Router.push('/')}>
-            or Cancel
+          <button disabled={!content || !title} type="submit" className='primary-green-button'>Create</button>
+          <a className="back primary-red-button" href="#" onClick={() => Router.push('/')}>
+            Cancel
           </a>
         </form>
       </div>

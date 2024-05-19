@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
 
@@ -12,28 +13,9 @@ const Header: React.FC = () => {
 
   let left = (
     <div className="left">
-      <Link href="/" className="bold" data-active={isActive('/')}>
+      <Link href="/" className="primary-blue-button" data-active={isActive('/')}>
         Feed
       </Link>
-      <style jsx>{`
-        .bold {
-          font-weight: bold;
-        }
-
-        a {
-          text-decoration: none;
-          color: var(--geist-foreground);
-          display: inline-block;
-        }
-
-        .left a[data-active='true'] {
-          color: gray;
-        }
-
-        a + a {
-          margin-left: 1rem;
-        }
-      `}</style>
     </div>
   );
 
@@ -42,38 +24,14 @@ const Header: React.FC = () => {
   if (status === 'loading') {
     left = (
       <div className="left">
-        <Link href="/" className="bold" data-active={isActive('/')}>
+        <Link href="/" className="primary-green-button" data-active={isActive('/')}>
           Feed
         </Link>
-        <style jsx>{`
-          .bold {
-            font-weight: bold;
-          }
-
-          a {
-            text-decoration: none;
-            color: var(--geist-foreground);
-            display: inline-block;
-          }
-
-          .left a[data-active='true'] {
-            color: gray;
-          }
-
-          a + a {
-            margin-left: 1rem;
-          }
-        `}</style>
       </div>
     );
     right = (
       <div className="right">
         <p>Validating session ...</p>
-        <style jsx>{`
-          .right {
-            margin-left: auto;
-          }
-        `}</style>
       </div>
     );
   }
@@ -81,121 +39,49 @@ const Header: React.FC = () => {
   if (!session) {
     right = (
       <div className="right">
-        <Link href="/api/auth/signin" data-active={isActive('/signup')}>
+        <Link href="/api/auth/signin" data-active={isActive('/signup')} className='primary-green-button'>
           Log in
         </Link>
-        <style jsx>{`
-          a {
-            text-decoration: none;
-            color: var(--geist-foreground);
-            display: inline-block;
-          }
-
-          a + a {
-            margin-left: 1rem;
-          }
-
-          .right {
-            margin-left: auto;
-          }
-
-          .right a {
-            border: 1px solid var(--geist-foreground);
-            padding: 0.5rem 1rem;
-            border-radius: 3px;
-          }
-        `}</style>
       </div>
     );
   }
 
   if (session) {
     left = (
-      <div className="left">
-        <Link href="/" className="bold" data-active={isActive('/')}>
+      <div className="flex gap-4">
+        <Link href="/" className="primary-blue-button" data-active={isActive('/')}>
           Feed
         </Link>
-        <Link href="/drafts" data-active={isActive('/drafts')}>
+        <Link href="/drafts" className="primary-blue-button" data-active={isActive('/drafts')}>
           My drafts
         </Link>
-        <style jsx>{`
-          .bold {
-            font-weight: bold;
-          }
-
-          a {
-            text-decoration: none;
-            color: var(--geist-foreground);
-            display: inline-block;
-          }
-
-          .left a[data-active='true'] {
-            color: gray;
-          }
-
-          a + a {
-            margin-left: 1rem;
-          }
-        `}</style>
       </div>
     );
     right = (
-      <div className="right">
-        <p>
-          {session?.user?.name} ({session?.user?.email})
-        </p>
-        <Link href="/create">
+      <div className="flex gap-4">
+        <div className='h-10 w-10'>
+          <Image
+            src={session?.user?.image || 'http:/'}
+            alt="Profile"
+            className='rounded-full cursor-pointer'
+            width={200}
+            height={200}
+            loading="lazy"
+            layout="responsive"
+          />
+        </div>
+        <Link href="/create" className="primary-blue-button">
           <button>New post</button>
         </Link>
-        <button onClick={() => signOut()}>Log out</button>
-        <style jsx>{`
-          a, button {
-            text-decoration: none;
-            color: var(--geist-foreground);
-            display: inline-block;
-          }
-
-          p {
-            display: inline-block;
-            font-size: 13px;
-            padding-right: 1rem;
-          }
-
-          a + a, a + button, button + button {
-            margin-left: 1rem;
-          }
-
-          .right {
-            margin-left: auto;
-          }
-
-          .right a, .right button {
-            border: 1px solid var(--geist-foreground);
-            padding: 0.5rem 1rem;
-            border-radius: 3px;
-          }
-
-          button {
-            border: none;
-            background: none;
-            cursor: pointer;
-          }
-        `}</style>
+        <button onClick={() => signOut()} className='primary-red-button'>Log out</button>
       </div>
     );
   }
 
   return (
-    <nav>
+    <nav className='flex items-center justify-between my-4 mx=4 py-4 px-12 md:px-8'>
       {left}
       {right}
-      <style jsx>{`
-        nav {
-          display: flex;
-          padding: 2rem;
-          align-items: center;
-        }
-      `}</style>
     </nav>
   );
 };
